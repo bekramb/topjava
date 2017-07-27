@@ -15,10 +15,14 @@ public class AuthorizedUser {
 
 
     public static int id() {
-        return 1;
+        return USERS.get(0).getId();
     }
 
     public static int getCaloriesPerDay() {
         return DEFAULT_CALORIES_PER_DAY;
+    }
+
+    public static void setID(int id){
+        USERS.get(0).setId(id);
     }
 }

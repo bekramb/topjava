@@ -29,6 +29,10 @@ public class MealRestController {
         mealService.update(meal,AuthorizedUser.id());
     }
 
+    public void create(Meal meal) {
+        mealService.save(meal);
+    }
+
     public List<MealWithExceed> getAll(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
         return MealsUtil.getFilteredWithExceeded(mealService.getAll(AuthorizedUser.id(),startDate,endDate),
                 startTime, endTime,AuthorizedUser.getCaloriesPerDay());
