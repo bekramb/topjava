@@ -10,10 +10,12 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
+import ru.javawebinar.topjava.ActiveDbProfileResolver;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
@@ -33,8 +35,9 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 })
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
+@ActiveProfiles(resolver = ActiveDbProfileResolver.class)
 public class MealServiceTest {
-    private static final Logger log = getLogger(MealServiceTest.class);
+    private static final Logger resultLog = getLogger("result");
 
     private static StringBuilder results = new StringBuilder();
 
@@ -48,7 +51,7 @@ public class MealServiceTest {
         protected void finished(long nanos, Description description) {
             String result = String.format("%-25s %7d", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
             results.append(result).append('\n');
-            log.info(result + " ms\n");
+            resultLog.info(result + " ms\n");
         }
     };
 
@@ -59,7 +62,7 @@ public class MealServiceTest {
 
     @AfterClass
     public static void printResult() {
-        log.info("\n---------------------------------" +
+        resultLog.info("\n---------------------------------" +
                 "\nTest                 Duration, ms" +
                 "\n---------------------------------\n" +
                 results +
