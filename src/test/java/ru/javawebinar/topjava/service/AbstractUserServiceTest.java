@@ -1,12 +1,16 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.Assume;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.JpaUtil;
+import ru.javawebinar.topjava.service.jdbc.JdbcUserServiceTest;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.validation.ConstraintViolationException;
@@ -21,13 +25,27 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Autowired
     protected UserService service;
 
-    @Autowired
+    @Autowired(required = false)
     protected JpaUtil jpaUtil;
+
+    @Rule
+    public TestName testName = new TestName();
+
+    @Before
+    public void checkTest() {
+        Assume.assumeTrue(!("testValidation".equals(testName.getMethodName())) || !isJDBC());
+    }
+
+    public boolean isJDBC() {
+        return this instanceof JdbcUserServiceTest;
+    }
 
     @Before
     public void setUp() throws Exception {
         service.evictCache();
-        jpaUtil.clear2ndLevelHibernateCache();
+        if (!isJDBC()) {
+            jpaUtil.clear2ndLevelHibernateCache();
+        }
     }
 
     @Test

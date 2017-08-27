@@ -26,7 +26,7 @@ public class InMemoryAdminRestControllerSpringTest {
     private AdminRestController controller;
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository repository ;
 
     @Before
     public void setUp() throws Exception {

@@ -1,8 +1,13 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.Assume;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.service.jdbc.JdbcMealServiceTest;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.validation.ConstraintViolationException;
@@ -19,6 +24,14 @@ public abstract class AbstractMealServiceTest extends AbstractServiceTest {
 
     @Autowired
     protected MealService service;
+
+    @Rule
+    public TestName testName = new TestName();
+
+    @Before
+    public void checkTest() {
+        Assume.assumeTrue(!("testValidation".equals(testName.getMethodName())) || !(this instanceof JdbcMealServiceTest));
+    }
 
     @Test
     public void testDelete() throws Exception {
