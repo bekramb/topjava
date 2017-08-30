@@ -1,6 +1,6 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/85acb02789e1445fb17e4a8b43a2b605)](https://www.codacy.com/app/bekramb/topjava?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bekramb/topjava&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/bekramb/topjava.svg?branch=master)](https://travis-ci.org/bekramb/topjava)
-[![Dependency Status](https://dependencyci.com/github/bekramb/topjava/badge)](https://dependencyci.com/github/bekramb/topjava)
+[![Dependency Status](https://www.versioneye.com/user/projects/59a6f9ad0fb24f004e2b84e5/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/59a6f9ad0fb24f004e2b84e5)
 
 Java Enterprise Online Project 
 ===============================
