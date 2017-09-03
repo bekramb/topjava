@@ -35,4 +35,8 @@ public class MealTestData {
     public static Meal getUpdated() {
         return new Meal(MEAL1_ID, MEAL1.getDateTime(), "Обновленный завтрак", 200);
     }
+
+    public static Meal getUpdatedAdmin(){
+        return new Meal(ADMIN_MEAL_ID,ADMIN_MEAL1.getDateTime(),"Обновленный ланч",200);
+    }
 }

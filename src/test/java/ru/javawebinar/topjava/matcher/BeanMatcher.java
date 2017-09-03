@@ -79,6 +79,10 @@ public class BeanMatcher<T> {
         return fromJsonValue(TestUtil.getContent(action));
     }
 
+    public List<T> fromJsonActions(ResultActions action) throws UnsupportedEncodingException {
+        return fromJsonValues(TestUtil.getContent(action));
+    }
+
     public void assertEquals(T expected, T actual) {
         Assert.assertEquals(wrap(expected), wrap(actual));
     }
