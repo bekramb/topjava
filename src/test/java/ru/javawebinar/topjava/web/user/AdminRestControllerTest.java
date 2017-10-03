@@ -35,6 +35,14 @@ public class AdminRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    public void testGetNotFound() throws Exception {
+        mockMvc.perform(get(REST_URL + 1)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
+
+    @Test
     public void testGetByEmail() throws Exception {
         mockMvc.perform(get(REST_URL + "by?email=" + ADMIN.getEmail())
                 .with(userHttpBasic(ADMIN)))
@@ -50,6 +58,14 @@ public class AdminRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
         MATCHER.assertListEquals(Collections.singletonList(ADMIN), userService.getAll());
+    }
+
+    @Test
+    public void testDeleteNotFound() throws Exception {
+        mockMvc.perform(delete(REST_URL + 1)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
     }
 
     @Test
@@ -81,17 +97,16 @@ public class AdminRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        User expected = new User(null, "New", "new@gmail.com", "newPass", Role.ROLE_USER, Role.ROLE_ADMIN);
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(expected))).andExpect(status().isCreated());
+                .content(JSON_NEW_USER_WITH_PASSWORD)).andExpect(status().isCreated());
 
         User returned = MATCHER.fromJsonAction(action);
-        expected.setId(returned.getId());
+        NEW_USER.setId(returned.getId());
 
-        MATCHER.assertEquals(expected, returned);
-        MATCHER.assertListEquals(Arrays.asList(ADMIN, expected, USER), userService.getAll());
+        MATCHER.assertEquals(NEW_USER, returned);
+        MATCHER.assertListEquals(Arrays.asList(ADMIN, NEW_USER, USER), userService.getAll());
     }
 
     @Test
