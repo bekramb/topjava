@@ -1,7 +1,7 @@
 var form;
 
 function makeEditable() {
-    form = $('#detailsForm');
+    form = $("#detailsForm");
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(event, jqXHR, options, jsExc);
     });
@@ -20,10 +20,16 @@ function updateRow(id) {
     $("#modalTitle").html(i18n["editTitle"]);
     $.get(ajaxUrl + id, function (data) {
         $.each(data, function (key, value) {
-            form.find("input[name='" + key + "']").val(value);
+            form.find("input[name='" + key + "']").val(
+                key === "dateTime" ? formatDate(value) : value
+            );
         });
-        $('#editRow').modal();
+        $("#editRow").modal();
     });
+}
+
+function formatDate(date) {
+    return date.replace('T', ' ').substr(0, 16);
 }
 
 function deleteRow(id) {
@@ -67,7 +73,7 @@ function successNoty(key) {
     closeNoty();
     new Noty({
         text: "<span class='glyphicon glyphicon-ok'></span> &nbsp;" + i18n[key],
-        type: 'success',
+        type: "success",
         layout: "bottomRight",
         timeout: 1000
     }).show();
