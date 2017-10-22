@@ -1,11 +1,9 @@
 package ru.javawebinar.topjava.web.json;
 
-import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.Assert;
 import org.junit.Test;
 import ru.javawebinar.topjava.MealTestData;
 import ru.javawebinar.topjava.UserTestData;
-import ru.javawebinar.topjava.View;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 
@@ -33,6 +31,7 @@ public class JsonUtilTest {
         MealTestData.MATCHER.assertListEquals(MealTestData.MEALS, meals);
     }
 
+/*
     @Test
     public void testWriteWithView() throws Exception {
         ObjectWriter uiWriter = JacksonObjectMapper.getMapper().writerWithView(View.JsonUI.class);
@@ -40,15 +39,15 @@ public class JsonUtilTest {
         System.out.println(json);
         assertThat(json, containsString("dateTimeUI"));
     }
+*/
 
     @Test
     public void testWriteOnlyAccess() throws Exception {
         String json = JsonUtil.writeValue(UserTestData.USER);
         System.out.println(json);
         assertThat(json, not(containsString("password")));
-        User user = JsonUtil.readValue(
-                UserTestData.JSON_NEW_USER_WITH_PASSWORD, User.class);
-        System.out.println(user.getPassword());
-        Assert.assertNotNull(user.getPassword());
+        String jsonWithPassw = UserTestData.jsonWithPassword(UserTestData.USER, "newPassw");
+        User user = JsonUtil.readValue(jsonWithPassw, User.class);
+        Assert.assertEquals(user.getPassword(), "newPassw");
     }
 }
